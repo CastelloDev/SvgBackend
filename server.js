@@ -1,12 +1,12 @@
 // server.js
 
-var http = require('http');
+const express = require("express");
+const app = express();
+const port = process.env.PORT || 3500;
 
-var server = http.createServer(function(req, res) {
-    res.writeHead(200, { "Content-type": "text/plain" });
-    res.end("Hello world\n");
+// viewed at http://localhost:3500
+app.get("/", function(req, res) {
+    res.send("Again I Go Unnoticed");
 });
-
-server.listen(3500, function() {
-    console.log('Server is running at 3500')
-});
+  
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

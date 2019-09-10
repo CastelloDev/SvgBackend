@@ -17,11 +17,11 @@ app.get("/", function(req, res) {
 });
 
 app.get('/optimizeSvg',function(req,res){
-    svgoObject.optimize(dataUriToBuffer(req.body.dataUrl).toString()).then(result => {
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({urlData:svgToDataURL(result.data)}));
-  })
-  .catch(err => console.log(err));
+    svgoObject.optimize(dataUriToBuffer(req.body.dataUrl).toString())
+    .then(result => {
+        res.send(JSON.stringify({urlData:svgToDataURL(result.data)}));
+    })
+    .catch(err => console.log(err));
 });
   
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

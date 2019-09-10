@@ -12,7 +12,7 @@ const svgoObject = new SVGO(svgo);
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/optimizeSvg',function(req,res){
+app.post('/optimizeSvg',function(req,res){
     svgoObject.optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
         res.send(JSON.stringify({urlData:svgToDataURL(result.data)}));

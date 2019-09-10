@@ -12,10 +12,6 @@ const svgoObject = new SVGO(svgo);
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get("/", function(req, res) {
-    res.send("Again I Go Unnoticed");
-});
-
 app.get('/optimizeSvg',function(req,res){
     svgoObject.optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {

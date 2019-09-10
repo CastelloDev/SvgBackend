@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import svgToDataURL from 'svg-to-dataurl';
 import { svgo } from "../SvgBackend/src/svgo.config";
 import SVGO from "svgo";
-import cors from 'cors'
+import cors from 'cors';
 
 const app = express();
 const port = process.env.PORT || 3500;

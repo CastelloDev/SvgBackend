@@ -3,29 +3,27 @@ import dataUriToBuffer from "data-uri-to-buffer";
 import bodyParser from "body-parser";
 import svgToDataURL from "svg-to-dataurl";
 import { svgo } from "../SvgBackend/src/svgo.config";
+import {OPTIMIZE_SVG,SVG_CODE_TO_BE_INSERTED} from "./src/constants/constants";
 import SVGO from "svgo";
 import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 3500;
 const svgoObject = new SVGO(svgo);
-const svgCodeToBeInserted =
-  "<defs><style>.colour-class{fill:#FFFFFF;}</style></defs>";
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post("/optimizeSvg", function(req, res) {
+app.post(OPTIMIZE_SVG, function(req, res) {
   svgoObject
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
       var newDataWithColorClass = " ";
-      if (result.data.toString().search(svgCodeToBeInserted) < 0) {
+      if (result.data.toString().search(SVG_CODE_TO_BE_INSERTED) < 0) {
         const PositionToInsert = result.data.toString().indexOf(">") + 1;
         newDataWithColorClass = [
           result.data.toString().slice(0, PositionToInsert),
-          svgCodeToBeInserted,
+          SVG_CODE_TO_BE_INSERTED,
           result.data
             .toString()
             .slice(PositionToInsert, result.data.toString().length)

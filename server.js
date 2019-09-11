@@ -3,7 +3,8 @@ import dataUriToBuffer from "data-uri-to-buffer";
 import bodyParser from "body-parser";
 import svgToDataURL from "svg-to-dataurl";
 import { svgo } from "../SvgBackend/src/svgo.config";
-import {OPTIMIZE_SVG,SVG_CODE_TO_BE_INSERTED} from "./src/constants/constants";
+import {OPTIMIZE_SVG} from "./src/constants/constants";
+import {declareColourClass} from "./src/helpers/svgHelper/svgHelper";
 import SVGO from "svgo";
 import cors from "cors";
 
@@ -18,20 +19,7 @@ app.post(OPTIMIZE_SVG, function(req, res) {
   svgoObject
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
-      let newDataWithColorClass = " ";
-      if (result.data.toString().search(SVG_CODE_TO_BE_INSERTED) < 0) {
-        const PositionToInsert = result.data.toString().indexOf(">") + 1;
-        newDataWithColorClass = [
-          result.data.toString().slice(0, PositionToInsert),
-          SVG_CODE_TO_BE_INSERTED,
-          result.data
-            .toString()
-            .slice(PositionToInsert, result.data.toString().length)
-        ].join();
-      } else {
-        newDataWithColorClass = result.data;
-      }
-
+      let newDataWithColorClass = declareColourClass(result);
       res.send(
         JSON.stringify({ urlData: svgToDataURL(newDataWithColorClass) })
       );

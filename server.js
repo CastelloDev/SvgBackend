@@ -18,7 +18,7 @@ app.post(OPTIMIZE_SVG, function(req, res) {
   svgoObject
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
-      var newDataWithColorClass = " ";
+      let newDataWithColorClass = " ";
       if (result.data.toString().search(SVG_CODE_TO_BE_INSERTED) < 0) {
         const PositionToInsert = result.data.toString().indexOf(">") + 1;
         newDataWithColorClass = [

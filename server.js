@@ -17,9 +17,9 @@ app.use(cors());
 
 app.post(OPTIMIZE_SVG, function(req, res) {
     if(Object.keys(req.body).length>1){
-        svgoObject=req.body.svgo;
+        svgoObject=new SVGO(req.body.svgo);
     }
-    new SVGO(svgoObject)
+    svgoObject
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
       res.send(

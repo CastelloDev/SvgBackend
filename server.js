@@ -10,18 +10,20 @@ import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 3500;
-const svgoObject = new SVGO(svgo);
+let svgoObject = new SVGO(svgo);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
 app.post(OPTIMIZE_SVG, function(req, res) {
-  svgoObject
+    if(Object.keys(req.body).length>1){
+        svgoObject=req.body.svgo;
+    }
+    new SVGO(svgoObject)
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
-      let newDataWithColorClass = declareColourClass(result);
       res.send(
-        JSON.stringify({ urlData: svgToDataURL(newDataWithColorClass) })
+        JSON.stringify({ urlData: svgToDataURL(declareColourClass(result)) })
       );
     })
     .catch(err => console.log(err));

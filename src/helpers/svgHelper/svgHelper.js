@@ -12,3 +12,7 @@ export const declareColourClass = (svgData) => {
     return svgData;
   }
 };
+
+export const isUndefinedOrNull=(data)=>{
+  return data === undefined || data === null;
+}

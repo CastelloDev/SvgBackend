@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import svgToDataURL from "svg-to-dataurl";
 import { svgo } from "../SvgBackend/src/svgo.config";
 import {OPTIMIZE_SVG} from "./src/constants/constants";
-import {declareColourClass} from "./src/helpers/svgHelper/svgHelper";
+import {declareColourClass,isUndefinedOrNull} from "./src/helpers/svgHelper/svgHelper";
 import SVGO from "svgo";
 import cors from "cors";
 
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post(OPTIMIZE_SVG, function(req, res) {
-    if(Object.keys(req.body).length>1){
+    if(!isUndefinedOrNull(req.body.svgo)){
         svgoObject=new SVGO(req.body.svgo);
     }
     svgoObject

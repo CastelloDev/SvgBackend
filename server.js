@@ -25,7 +25,7 @@ app.post(OPTIMIZE_SVG, function(req, res) {
     .then(result => {
       res.header("Access-Control-Allow-Origin", "*");
       res.send(
-        JSON.stringify({ urlData: "data:image/svg+xml;base64,"+base64.encode(declareColourClass(result)) })
+        JSON.stringify({ urlData: base64.encode(declareColourClass(result)) })
       );
     })
     .catch(err => console.log(err));

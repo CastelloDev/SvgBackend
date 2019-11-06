@@ -7,6 +7,7 @@ import {OPTIMIZE_SVG} from "./src/constants/constants";
 import {declareColourClass,isUndefinedOrNull} from "./src/helpers/svgHelper/svgHelper";
 import SVGO from "svgo";
 import cors from "cors";
+import base64 from 'base-64';
 
 const app = express();
 const port = process.env.PORT || 3500;
@@ -22,8 +23,9 @@ app.post(OPTIMIZE_SVG, function(req, res) {
     svgoObject
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
+      console.log(" send api : ",base64.encode(declareColourClass(result.data)))
       res.send(
-        JSON.stringify({ urlData: svgToDataURL(declareColourClass(result)) })
+        JSON.stringify({ urlData: base64.encode(declareColourClass(result.data))})
       );
     })
     .catch(err => console.log(err));

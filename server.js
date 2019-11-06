@@ -23,7 +23,6 @@ app.post(OPTIMIZE_SVG, function(req, res) {
     svgoObject
     .optimize(dataUriToBuffer(req.body.dataUrl).toString())
     .then(result => {
-      console.log(" send api : ",base64.encode(declareColourClass(result.data)))
       res.send(
         JSON.stringify({ urlData: base64.encode(declareColourClass(result.data))})
       );
